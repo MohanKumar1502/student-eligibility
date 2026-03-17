@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${appName}">Search Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0b7dda;
+        }
+        .search-result {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .placement-eligible {
+            color: green;
+            font-weight: bold;
+        }
+        .not-placement-eligible {
+            color: red;
+            font-weight: bold;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/check">Check Placement Eligibility</a>
+        <a href="/search">Search Student</a>
+        <a href="/students">All Students</a>
+    </nav>
+
+    <h1 th:text="${appName}">Student Eligibility Checker</h1>
+
+    <h2>Search Student by ID</h2>
+    <form th:action="@{/search}" method="post">
+        <label for="searchId">Student ID:</label>
+        <input type="text" name="studentId" id="searchId" required />
+        <button type="submit">Search</button>
+    </form>
+
+    <div th:if="${searchedStudent != null}" class="search-result">
+        <h3>Student Details</h3>
+        <p><strong>Student ID:</strong> <span th:text="${searchedStudent.studentId}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${searchedStudent.name}"></span></p>
+        <p><strong>CGPA:</strong> <span th:text="${searchedStudent.cgpa}"></span></p>
+        <p><strong>Backlog:</strong> <span th:text="${searchedStudent.backlog} ? '-' : 'No'"></span></p>
+        <p th:if="${searchedStudent.cgpa >= 7.0 && !searchedStudent.backlog}" class="placement-eligible">Placement Eligible</p>
+        <p th:unless="${searchedStudent.cgpa >= 7.0 && !searchedStudent.backlog}" class="not-placement-eligible">Not Placement Eligible</p>
+        <a th:href="@{'/edit/' + ${searchedStudent.studentId}}">Edit Student</a>
+    </div>
+    <div th:if="${searchedStudent == null and param.studentId != null}">
+        <p style="color: red;">Student with ID '<span th:text="${searchedId}"></span>' not found.</p>
+    </div>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

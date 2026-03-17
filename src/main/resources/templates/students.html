@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${appName}">All Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .placement-eligible {
+            color: green;
+            font-weight: bold;
+        }
+        .not-placement-eligible {
+            color: red;
+            font-weight: bold;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+        button {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d32f2f;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .edit-link {
+            color: #2196F3;
+            text-decoration: none;
+        }
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/check">Check Placement Eligibility</a>
+        <a href="/search">Search Student</a>
+        <a href="/students">All Students</a>
+    </nav>
+
+    <h1 th:text="${appName}">Student Eligibility Checker</h1>
+
+    <h2>All Students</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>CGPA</th>
+                <th>Backlog</th>
+                <th>Placement Eligibility</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="s : ${students}">
+                <td th:text="${s.studentId}"></td>
+                <td th:text="${s.name}"></td>
+                <td th:text="${s.cgpa}"></td>
+                <td th:text="${s.backlog} ? '-' : 'No'"></td>
+                <td th:if="${s.cgpa >= 7.0 && !s.backlog}" class="placement-eligible">Placement Eligible</td>
+                <td th:unless="${s.cgpa >= 7.0 && !s.backlog}" class="not-placement-eligible">Not Placement Eligible</td>
+                <td><a th:href="@{'/edit/' + ${s.studentId}}" class="edit-link">Edit</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Clear All Data</h2>
+    <form th:action="@{/clear}" method="post">
+        <button type="submit" onclick="return confirm('Are you sure you want to delete all student data?')">Clear All Students</button>
+    </form>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

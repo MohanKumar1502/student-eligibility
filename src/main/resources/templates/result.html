@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${appName}">Eligibility Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .result {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .placement-eligible {
+            color: green;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .not-placement-eligible {
+            color: red;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/check">Check Placement Eligibility</a>
+        <a href="/search">Search Student</a>
+        <a href="/students">All Students</a>
+    </nav>
+
+    <div class="result">
+        <h2>Eligibility Result</h2>
+        <p><strong>Student ID:</strong> <span th:text="${student.studentId}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${student.name}"></span></p>
+        <p><strong>CGPA:</strong> <span th:text="${student.cgpa}"></span></p>
+        <p><strong>Backlog:</strong> <span th:text="${student.backlog} ? '-' : 'No'"></span></p>
+
+        <div th:if="${placementEligible}">
+            <p class="placement-eligible">Congratulations! You are placement eligible.</p>
+        </div>
+        <div th:unless="${placementEligible}">
+            <p class="not-placement-eligible">Sorry, you are not placement eligible.</p>
+        </div>
+
+        <a href="/">Check Another Student</a>
+    </div>
+</body>
+</html>
