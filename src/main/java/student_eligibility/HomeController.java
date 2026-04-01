@@ -13,11 +13,16 @@ public class HomeController {
 
     @GetMapping("/check")
     public String check() {
-        return "Check API Working ✅";
+        return "Check Page Working ✅";
     }
 
     @GetMapping("/students")
     public String students() {
-        return "Students API Working ✅";
+        return "Students Page Working ✅";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "Search Page Working ✅";
     }
 }
