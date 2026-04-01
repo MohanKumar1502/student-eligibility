@@ -32,7 +32,7 @@ public class HomeController {
 
     @GetMapping("/check")
     public String checkPage(Model model) {
-        model.addAttribute("appName", "Student Placement Eligibility Checker");
+        model.addAttribute("appName", "Student Placement Elihgibility Checker");
         model.addAttribute("student", new Student());
         return "check";
     }
